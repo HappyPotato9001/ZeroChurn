@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "dev.zerochurn.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "dev.zerochurn.mixin.ZeroChurnMixinPlugin",
+  "priority": 1100,
+  "mixins": [
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
