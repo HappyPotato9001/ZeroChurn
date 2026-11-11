@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "infoforge",
+  "version": "${version}",
+  "name": "InfoForge",
+  "description": "Client HUD for coordinates, FPS, clock, waypoints, and minimap. Built to sit beside ZeroChurn and other Fabric performance mods.",
+  "authors": [
+    "InfoForge"
+  ],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.infoforge.client.InfoForgeClient"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "infoforge.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=25",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "zerochurn": "*",
+    "sodium": "*",
+    "immediatelyfast": "*",
+    "lithium": "*",
+    "ferritecore": "*",
+    "modernfix": "*",
+    "iris": "*"
+  }
+}

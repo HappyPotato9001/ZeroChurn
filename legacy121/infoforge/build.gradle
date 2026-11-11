@@ -1,0 +1,68 @@
+plugins {
+    id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+    id 'maven-publish'
+}
+
+version = project.full_version
+group = 'dev.infoforge'
+
+def parentSrc = file("${rootProject.projectDir}/../infoforge/src")
+def legacyClient = file("${project.projectDir}/src/client/java")
+
+loom {
+    splitEnvironmentSourceSets()
+    mods {
+        infoforge {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+sourceSets {
+    main {
+        java.setSrcDirs(["${parentSrc}/main/java"])
+        resources.setSrcDirs(["${parentSrc}/main/resources"])
+    }
+    client {
+        java.setSrcDirs([legacyClient])
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+}
+
+processResources {
+    def ver = project.version
+    def mc = project.minecraft_version
+    inputs.property "version", ver
+    inputs.property "minecraft_version", mc
+    filesMatching("fabric.mod.json") {
+        expand "version": ver, "minecraft_version": mc
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+    it.options.encoding = "UTF-8"
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+remapJar {
+    archiveFileName = "infoforge-${project.version}.jar"
+}
+
+jar {
+    from(rootProject.file("../LICENSE")) {
+        rename { "${it}_${project.name}" }
+    }
+}

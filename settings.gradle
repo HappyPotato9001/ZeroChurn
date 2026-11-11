@@ -9,4 +9,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'zerochurn'
+rootProject.name = 'zerochurn-workspace'
+
+include 'zerochurn'
+include 'infoforge'

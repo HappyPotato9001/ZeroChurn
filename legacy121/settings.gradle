@@ -1,0 +1,18 @@
+pluginManagement {
+    repositories {
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'zerochurn-legacy-1.21.11'
+
+include 'zerochurn'
+include 'infoforge'
+
+project(':zerochurn').projectDir = file('zerochurn')
+project(':infoforge').projectDir = file('infoforge')

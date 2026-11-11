@@ -1,0 +1,9 @@
+{
+  "key.category.infoforge.infoforge": "InfoForge",
+  "key.infoforge.toggle_hud": "Toggle InfoForge HUD",
+  "key.infoforge.toggle_coords": "Toggle Coordinates",
+  "key.infoforge.toggle_fps": "Toggle FPS",
+  "key.infoforge.toggle_clock": "Toggle Clock",
+  "key.infoforge.cycle_anchor": "Cycle HUD Anchor",
+  "key.infoforge.open_config": "Open InfoForge Config"
+}

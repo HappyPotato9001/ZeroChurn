@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "package": "dev.zerochurn.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "dev.zerochurn.mixin.ZeroChurnMixinPlugin",
+  "priority": 1100,
+  "mixins": [
+    "aabb.AABBMixin",
+    "blockpos.BlockPosBetweenClosedMixin",
+    "blockpos.BlockPosContainingMixin",
+    "vec3.Vec3Mixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

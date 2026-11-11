@@ -1,0 +1,62 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
+    id 'maven-publish'
+}
+
+def mcVersion = findProperty('minecraft_version') ?: '26.3'
+def baseVersion = findProperty('mod_version') ?: '1.1.0'
+version = findProperty('full_version') ?: "${baseVersion}+${mcVersion}"
+group = project.group
+
+repositories {
+}
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        infoforge {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${mcVersion}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:5.11.4"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+processResources {
+    def ver = project.version
+    inputs.property "version", ver
+    inputs.property "minecraft_version", mcVersion
+    filesMatching("fabric.mod.json") {
+        expand "version": ver, "minecraft_version": mcVersion
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+    it.options.encoding = "UTF-8"
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
+
+jar {
+    from(rootProject.file("LICENSE")) {
+        rename { "${it}_${project.name}" }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

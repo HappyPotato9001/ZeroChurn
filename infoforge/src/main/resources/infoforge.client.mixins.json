@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "dev.infoforge.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "dev.infoforge.mixin.InfoForgeMixinPlugin",
+  "priority": 1200,
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

@@ -1,0 +1,74 @@
+plugins {
+    id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+    id 'maven-publish'
+}
+
+version = project.full_version
+group = 'dev.zerochurn'
+
+def parentSrc = file("${rootProject.projectDir}/../zerochurn/src")
+
+loom {
+    splitEnvironmentSourceSets()
+    mods {
+        zerochurn {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+sourceSets {
+    main {
+        java.setSrcDirs(["${parentSrc}/main/java"])
+        resources.setSrcDirs(["${parentSrc}/main/resources"])
+    }
+    client {
+        java.setSrcDirs(["${parentSrc}/client/java"])
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:5.11.4"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+processResources {
+    def ver = project.version
+    def mc = project.minecraft_version
+    inputs.property "version", ver
+    inputs.property "minecraft_version", mc
+    filesMatching("fabric.mod.json") {
+        expand "version": ver, "minecraft_version": mc
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+    it.options.encoding = "UTF-8"
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+remapJar {
+    archiveFileName = "zerochurn-${project.version}.jar"
+}
+
+jar {
+    from(rootProject.file("../LICENSE")) {
+        rename { "${it}_${project.name}" }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
